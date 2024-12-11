@@ -1,37 +1,45 @@
-"""
-Escriure un programa que ens permeti jugar a una versió simplificada del joc de MasterMind, 
-el joc consisteix en crear un codi de 4 xifres i demanar a l’usuari que vagi introduint codis de 4 xifres 
-fins que l’endevini. En cada jugada, li direm quants número ha encertat 
-(estan en la posició correcte) i quants coincideixen (i són, però no estan en la posició correcte).
-
-"""
-
 import random
+import time
 
-def crear_num_aleatoris():
-    l=[]
-    for i in range(4):
-        l.append(random.randint(0,9))
-    return l
-def comparar(l):
-    s=[]
-    r=[0, 0, 0, 0]
-    for i in range(4):
-        s.append(int(input("Num: ")))
-        if l[i]==s[i]:
-            r[i]=2
-    for i,e in enumerate(s):
-        if e in l and r[i]!=2:
-            r[i]=1
-    for e in s:
-        if e==0:
-            print("Aquest número {} no hi és: ".format(e))
-        elif e==1:
-            print("Aquest número {} existeix però no està al seu lloc".format(s))
-        else:
-            print("Aquest número {} està en el seu lloc".format(e))
+# Funció on expliquem què passa
+def intro():
+    print ("""En una època on els gegants governen Menorca. Nosaltres necessitem menjar,
+    Estem seguint el rastre de l'olor del menjar, però ens trobem en una cruïa.
+    Al final de cada camí hi ha un talaiot, en un viuen els gegants bons que ens convidaran
+    i en l'altre són uns caníbals afamats, i ens menjaran just ens vegin.
+    """)
 
+# Funció on demanem a quin talaiot volem anar
+def canviTalaiot():
+    talaiot = ""
+    while talaiot != "1" and talaiot != "2":
+        talaiot = input("A quin Talaiot vols anar? Introdueixi 1 o 2: ")
+    return talaiot
 
-#Programa principal
-m = crear_num_aleatoris()
-comparar(m)
+# Funció que ens indica si compartiran el menjar o serem nosaltres el seu àpat
+def trobada(canviTalaiot):
+    print ("T'estas apropant al talaiot...")
+    time.sleep(2)
+    print ("Està fosc i és tenebrós...")
+    time.sleep(2)
+    print ("Un gran gegant salta davant teu, t'agafa i ...")
+    print ("")
+    time.sleep(2)
+    gegantamic = random.randint (1, 2)
+    if canviTalaiot == str(gegantamic):
+        print ("Et convida a menjar...")
+        return 1
+    else:
+        print ("Se't menja d'un mos...ÑAMÑAMÑAM")
+        return -1
+
+# Funció principal 
+punt=3
+partidaNova = ("si")
+while (partidaNova == ("s") or partidaNova == ("si")) and punt>0:
+    intro()
+    nTalaiot = canviTalaiot()
+    punt += trobada(nTalaiot)
+    print("Tens {}-vides \n".format(punt))
+    partidaNova = input("\nVols tornar a mejar (jugar)? Introdueixi si o no: ")
+    print("\n")
